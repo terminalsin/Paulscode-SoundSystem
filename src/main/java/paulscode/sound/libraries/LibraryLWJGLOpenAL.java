@@ -157,11 +157,16 @@ public class LibraryLWJGLOpenAL extends Library
     public void init() throws SoundSystemException
     {
         boolean errors = false; // set to 'true' if error(s) occur:
-        
+
         try
         {
-            // Try and create the sound system:
-            ALC.create();
+            try {
+                ALC.getFunctionProvider();
+            } catch (IllegalStateException e) {
+                // Try and create the sound system:
+                ALC.create();
+            }
+           
             errors = checkALError();
         }
         catch( java.lang.Exception e )
